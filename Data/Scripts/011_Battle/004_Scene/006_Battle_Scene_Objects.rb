@@ -223,16 +223,16 @@ class Battle::Scene::PokemonDataBox < Sprite
     nameWidth = self.bitmap.text_size(@battler.name).width
     nameOffset = 0
     nameOffset = nameWidth - 116 if nameWidth > 116
-    pbDrawTextPositions(self.bitmap, [[@battler.name, @spriteBaseX + 8 - nameOffset, 18, :left,
+    pbDrawTextPositions(self.bitmap, [[@battler.name, @spriteBaseX + 12 - nameOffset, 14, :left,
                                        NAME_BASE_COLOR, NAME_SHADOW_COLOR]]
     )
   end
 
   def draw_level
     # "Lv" graphic
-    pbDrawImagePositions(self.bitmap, [[_INTL("Graphics/UI/Battle/overlay_lv"), @spriteBaseX + 140, 16]])
+    pbDrawImagePositions(self.bitmap, [[_INTL("Graphics/UI/Battle/overlay_lv"), @spriteBaseX + 155, 16]])
     # Level number
-    pbDrawNumber(@battler.level, self.bitmap, @spriteBaseX + 162, 17)
+    pbDrawNumber(@battler.level, self.bitmap, @spriteBaseX + 180, 17)
   end
 
   def draw_gender
@@ -241,7 +241,7 @@ class Battle::Scene::PokemonDataBox < Sprite
     gender_text  = (gender == 0) ? _INTL("♂") : _INTL("♀")
     base_color   = (gender == 0) ? MALE_BASE_COLOR : FEMALE_BASE_COLOR
     shadow_color = (gender == 0) ? MALE_SHADOW_COLOR : FEMALE_SHADOW_COLOR
-    pbDrawTextPositions(self.bitmap, [[gender_text, @spriteBaseX + 120, 17, :left, base_color, shadow_color]])
+    pbDrawTextPositions(self.bitmap, [[gender_text, @spriteBaseX + 134, 12, :left, base_color, shadow_color]])
   end
 
   def draw_status
@@ -437,7 +437,7 @@ class Battle::Scene::AbilitySplashBar < Sprite
     pbSetSystemFont(self.bitmap)
     # Position the bar
     self.x       = (side == 0) ? -Graphics.width / 2 : Graphics.width
-    self.y       = (side == 0) ? 180 : 80
+    self.y       = (side == 0) ? 185 : 85
     self.z       = 120
     self.visible = false
   end
@@ -491,10 +491,10 @@ class Battle::Scene::AbilitySplashBar < Sprite
     textX = (@side == 0) ? 10 : self.bitmap.width - 8
     align = (@side == 0) ? :left : :right
     # Draw Pokémon's name
-    textPos.push([_INTL("{1}的", @battler.name), textX, 8, align,
+    textPos.push([_INTL("{1}的", @battler.name), textX, 7, align,
                   TEXT_BASE_COLOR, TEXT_SHADOW_COLOR, :outline])
     # Draw Pokémon's ability
-    textPos.push([@battler.abilityName, textX, 38, align,
+    textPos.push([@battler.abilityName, textX, 39, align,
                   TEXT_BASE_COLOR, TEXT_SHADOW_COLOR, :outline])
     pbDrawTextPositions(self.bitmap, textPos)
   end

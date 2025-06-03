@@ -186,7 +186,7 @@ class Window_PokemonOption < Window_DrawableCommand
     # Draw option's name
     optionname = (index == @options.length) ? _INTL("关闭") : @options[index].name
     optionwidth = rect.width * 9 / 20
-    pbDrawShadowText(self.contents, rect.x, rect.y, optionwidth, rect.height, optionname,
+    pbDrawShadowText(self.contents, rect.x, rect.y+2, optionwidth, rect.height, optionname,
                      (index == sel_index) ? SEL_NAME_BASE_COLOR : self.baseColor,
                      (index == sel_index) ? SEL_NAME_SHADOW_COLOR : self.shadowColor)
     return if index == @options.length
@@ -203,7 +203,7 @@ class Window_PokemonOption < Window_DrawableCommand
         xpos = optionwidth + rect.x
         ivalue = 0
         @options[index].values.each do |value|
-          pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
+          pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
                            (ivalue == self[index]) ? SEL_VALUE_BASE_COLOR : self.baseColor,
                            (ivalue == self[index]) ? SEL_VALUE_SHADOW_COLOR : self.shadowColor)
           xpos += self.contents.text_size(value).width
@@ -211,33 +211,33 @@ class Window_PokemonOption < Window_DrawableCommand
           ivalue += 1
         end
       else
-        pbDrawShadowText(self.contents, rect.x + optionwidth, rect.y, optionwidth, rect.height,
+        pbDrawShadowText(self.contents, rect.x + optionwidth, rect.y+2, optionwidth, rect.height,
                          optionname, self.baseColor, self.shadowColor)
       end
     when NumberOption
       value = _INTL("样式 {1}/{2}", @options[index].lowest_value + self[index],
                     @options[index].highest_value - @options[index].lowest_value + 1)
       xpos = optionwidth + (rect.x * 2)
-      pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
+      pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
                        SEL_VALUE_BASE_COLOR, SEL_VALUE_SHADOW_COLOR, 1)
     when SliderOption
       value = sprintf(" %d", @options[index].highest_value)
       sliderlength = rect.width - rect.x - optionwidth - self.contents.text_size(value).width
       xpos = optionwidth + rect.x
-      self.contents.fill_rect(xpos, rect.y - 2 + (rect.height / 2), sliderlength, 4, self.baseColor)
+      self.contents.fill_rect(xpos, rect.y + (rect.height / 2), sliderlength, 4, self.baseColor)
       self.contents.fill_rect(
         xpos + ((sliderlength - 8) * (@options[index].lowest_value + self[index]) / @options[index].highest_value),
-        rect.y - 8 + (rect.height / 2),
+        rect.y - 2 + (rect.height / 2),
         8, 16, SEL_VALUE_BASE_COLOR
       )
       value = (@options[index].lowest_value + self[index]).to_s
       xpos += (rect.width - rect.x - optionwidth) - self.contents.text_size(value).width
-      pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
+      pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
                        SEL_VALUE_BASE_COLOR, SEL_VALUE_SHADOW_COLOR)
     else
       value = @options[index].values[self[index]]
       xpos = optionwidth + rect.x
-      pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
+      pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
                        SEL_VALUE_BASE_COLOR, SEL_VALUE_SHADOW_COLOR)
     end
   end
@@ -286,7 +286,7 @@ class PokemonOption_Scene
     @sprites = {}
     addBackgroundOrColoredPlane(@sprites, "bg", "optionsbg", Color.new(192, 200, 208), @viewport)
     @sprites["title"] = Window_UnformattedTextPokemon.newWithSize(
-      _INTL("设置"), 0, -16, Graphics.width, 64, @viewport
+      _INTL("设置"), 0, -8, Graphics.width, 64, @viewport
     )
     @sprites["title"].back_opacity = 0
     @sprites["textbox"] = pbCreateMessageWindow

@@ -219,7 +219,7 @@ MenuHandlers.add(:options_menu, :only_speedup_battles, {
   "order" => 25,
   "type" => EnumOption,
   "parameters" => [_INTL("永久"), _INTL("仅限战斗")],
-  "description" => _INTL("选择一个加速速度/"),
+  "description" => _INTL("选择一个加速速度"),
   "get_proc" => proc { next $PokemonSystem.only_speedup_battles },
   "set_proc" => proc { |value, scene|
     $GameSpeed = 0 if value != $PokemonSystem.only_speedup_battles

@@ -298,7 +298,7 @@ class PokemonBag_Scene
     # Draw the pocket name
     pbDrawTextPositions(
       overlay,
-      [[PokemonBag.pocket_names[@bag.last_viewed_pocket - 1], 94, 192, :center, POCKETNAMEBASECOLOR, POCKETNAMESHADOWCOLOR]]
+      [[PokemonBag.pocket_names[@bag.last_viewed_pocket - 1], 94, 188, :center, POCKETNAMEBASECOLOR, POCKETNAMESHADOWCOLOR]]
     )
     # Draw slider arrows
     showslider = false

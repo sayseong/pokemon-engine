@@ -192,7 +192,7 @@ module Settings
       _INTL("树果"),
       _INTL("邮件"),
       _INTL("战斗道具"),
-      _INTL("重要物品")
+      _INTL("重要道具")
     ]
   end
   # The maximum number of slots per pocket (-1 means infinite number).
@@ -447,16 +447,16 @@ module Settings
   def self.game_credits
     return [
       _INTL("游戏主作者："),
-      "Maruno",
+      "SAYSEONG",
       "",
       _INTL("参与制作："),
-      "A. Lee Uss<s>Anne O'Nymus",
-      "Ecksam Pell<s>Jane Doe",
-      "Joe Dan<s>Nick Nayme",
-      "Sue Donnim<s>",
+      "YIHUI",
+      "",
+      "",
+      "",
       "",
       _INTL("特别感谢："),
-      "Pizza"
+      "宝可饭堂"
     ]
   end
 end

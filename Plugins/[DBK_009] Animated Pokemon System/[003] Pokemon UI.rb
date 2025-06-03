@@ -27,11 +27,11 @@ class PokemonSystem
 end
 
 MenuHandlers.add(:options_menu, :animated_sprites, {
-  "name"        => _INTL("Pokémon Animations"),
+  "name"        => _INTL("动态精灵图"),
   "order"       => 35,
   "type"        => EnumOption,
-  "parameters"  => [_INTL("On"), _INTL("Off")],
-  "description" => _INTL("Choose whether Pokémon sprites should be animated."),
+  "parameters"  => [_INTL("开"), _INTL("关")],
+  "description" => _INTL("选择是否让宝可梦图像动起来。"),
   "get_proc"    => proc { next $PokemonSystem.animated_sprites },
   "set_proc"    => proc { |value, _scene| $PokemonSystem.animated_sprites = value }
 })
