@@ -50,8 +50,8 @@ class Battle::Scene::FightMenu < Battle::Scene::MenuBase
       addSprite("infoOverlay", @infoOverlay)
       @typeIcon = Sprite.new(viewport)
       @typeIcon.bitmap = @typeBitmap.bitmap
-      @typeIcon.x      = self.x + 430
-      @typeIcon.y      = self.y + 20
+      @typeIcon.x      = self.x + 435
+      @typeIcon.y      = self.y + 10
       @typeIcon.src_rect.height = TYPE_ICON_HEIGHT
       addSprite("typeIcon", @typeIcon)
       @actionButton = Sprite.new(viewport)
