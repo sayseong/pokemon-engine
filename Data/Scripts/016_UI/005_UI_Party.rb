@@ -19,7 +19,7 @@ class PokemonPartyConfirmCancelSprite < Sprite
     @overlaysprite = BitmapSprite.new(@bgsprite.bitmap.width, @bgsprite.bitmap.height, viewport)
     @overlaysprite.z = self.z + 1
     pbSetSystemFont(@overlaysprite.bitmap)
-    textpos = [[text, 56, (narrowbox) ? 8 : 14, :center, Color.new(248, 248, 248), Color.new(40, 40, 40)]]
+    textpos = [[text, 46, (narrowbox) ? 6 : 12, :center, Color.new(248, 248, 248), Color.new(40, 40, 40)]]
     pbDrawTextPositions(@overlaysprite.bitmap, textpos)
     self.x = x
     self.y = y
