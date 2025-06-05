@@ -128,8 +128,8 @@ class PokemonSummary_Scene
     @sprites["background"] = IconSprite.new(0, 0, @viewport)
     @sprites["pokemon"] = PokemonSprite.new(@viewport)
     @sprites["pokemon"].setOffset(PictureOrigin::CENTER)
-    @sprites["pokemon"].x = 104
-    @sprites["pokemon"].y = 206
+    @sprites["pokemon"].x = 414
+    @sprites["pokemon"].y = 208
     @sprites["pokemon"].setPokemonBitmap(@pokemon)
     @sprites["pokeicon"] = PokemonIconSprite.new(@pokemon, @viewport)
     @sprites["pokeicon"].setOffset(PictureOrigin::CENTER)
@@ -465,7 +465,11 @@ class PokemonSummary_Scene
     # Draw Pokémon type(s)
     @pokemon.types.each_with_index do |type, i|
       type_number = GameData::Type.get(type).icon_position
-      type_rect = Rect.new(0, type_number * 28, 64, 28)
+      if battler.tera_type == :STELLAR
+        type_rect = Rect.new(0, 18 * 28, 64, 28)
+      else
+        type_rect = Rect.new(0, type_number * 28, 64, 28)
+      end
       type_x = (@pokemon.types.length == 1) ? 406 : 370 + (66 * i)
       overlay.blt(type_x, 144, @typebitmap.bitmap, type_rect)
     end

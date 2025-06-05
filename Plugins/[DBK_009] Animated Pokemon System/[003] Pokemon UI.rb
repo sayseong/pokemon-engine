@@ -53,7 +53,7 @@ class PokemonSummary_Scene
       end
     end
     if @sprites["pokemon"]
-      @sprites["pokemon"].display_values = [104, 206, 208, 164]
+      @sprites["pokemon"].display_values = [460, 140, 208, 164]
       @sprites["pokemon"].pbSetDisplay
     end
     pbDeactivateWindows(sprites) do
