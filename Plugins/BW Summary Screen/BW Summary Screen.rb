@@ -284,7 +284,7 @@
         ret = -1
         @sprites["messagebox"].text    = text
         @sprites["messagebox"].visible = true
-        using(cmdwindow = Window_CommandPokemon.new([_INTL("Yes"), _INTL("No")])) {
+        using(cmdwindow = Window_CommandPokemon.new([_INTL("是"), _INTL("否")])) {
           cmdwindow.z       = @viewport.z + 1
           cmdwindow.visible = false
           pbBottomRight(cmdwindow)
@@ -504,11 +504,11 @@
       # Draw all images
       pbDrawImagePositions(overlay,imagepos)
       # Write various bits of text
-      pagename = [_INTL("POKéMON INFO"),
-                  _INTL("TRAINER MEMO"),
-                  _INTL("SKILLS"),
-                  _INTL("MOVES"),
-                  _INTL("RIBBONS")][page - 1]
+      pagename = [_INTL("宝可梦信息"),
+                  _INTL("T训练家备注"),
+                  _INTL("能力"),
+                  _INTL("技能"),
+                  _INTL("奖章")][page - 1]
 
       #============================================================================
       # Changed various positions of the text
@@ -518,21 +518,21 @@
         textpos = [
           [@pokemon.name, 354, 52, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)],
           [@pokemon.level.to_s, 346, 86, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)],
-          [_INTL("Item"), 298, 326, 0, base, shadow]
+          [_INTL("道具"), 298, 326, 0, base, shadow]
         ]
       else
         textpos = [
           [pagename, 26, 14, 0, Color.new(255, 255, 255), Color.new(132, 132, 132)],
           [@pokemon.name, 354, 52, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)],
           [@pokemon.level.to_s, 344, 84, 0, Color.new(90,82,82),Color.new(165,165,173)],
-          [_INTL("Item"), 298, 328, 0, base, shadow]
+          [_INTL("道具"), 298, 328, 0, base, shadow]
         ]
       end
       # Write the held item's name
       if @pokemon.hasItem?
         textpos.push([@pokemon.item.name, 290, 356, 0, base, shadow])
       else
-        textpos.push([_INTL("None"), 290, 356, 0, base, shadow])
+        textpos.push([_INTL("无"), 290, 356, 0, base, shadow])
       end
       # Write the gender symbol
       if @pokemon.male?
@@ -587,21 +587,21 @@
       # Write various bits of text. Changed various positions of the text
       if SUMMARY_B2W2_STYLE
         textpos = [
-          [_INTL("Dex No."), 34, 72, 0, base, shadow],
-          [_INTL("Species"), 34, 104, 0, base, shadow],
+          [_INTL("图鉴编号"), 34, 72, 0, base, shadow],
+          [_INTL("名字"), 34, 104, 0, base, shadow],
           [@pokemon.speciesName, 162, 106, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)],
-          [_INTL("Type"), 34, 136, 0, base, shadow],
-          [_INTL("OT"), 34, 168, 0, base, shadow],
-          [_INTL("ID No."), 34, 200, 0, base, shadow],
+          [_INTL("属性"), 34, 136, 0, base, shadow],
+          [_INTL("训练家"), 34, 168, 0, base, shadow],
+          [_INTL("训练家ID"), 34, 200, 0, base, shadow],
         ]
       else
         textpos = [
-          [_INTL("Dex No."), 34, 74, 0, base, shadow],
-          [_INTL("Species"), 34, 106, 0, base, shadow],
+          [_INTL("图鉴编号"), 34, 74, 0, base, shadow],
+          [_INTL("名字"), 34, 106, 0, base, shadow],
           [@pokemon.speciesName, 164, 106, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)],
-          [_INTL("Type"), 34, 139, 0, base, shadow],
-          [_INTL("OT"), 34, 170, 0, base, shadow],
-          [_INTL("ID No."), 34, 202, 0, base, shadow],
+          [_INTL("属性"), 34, 139, 0, base, shadow],
+          [_INTL("训练家"), 34, 170, 0, base, shadow],
+          [_INTL("训练家ID"), 34, 202, 0, base, shadow],
         ]
       end
 
@@ -640,10 +640,10 @@
       # Write Original Trainer's name and ID number
       if @pokemon.owner.name.empty?
         if SUMMARY_B2W2_STYLE
-          textpos.push([_INTL("RENTAL"), 164, 156, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)])
+          textpos.push([_INTL("出租"), 164, 156, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)])
           textpos.push(["?????", 164, 186, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)])
         else
-          textpos.push([_INTL("RENTAL"), 164, 158, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)])
+          textpos.push([_INTL("出租"), 164, 158, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)])
           textpos.push(["?????", 164, 188, 0, Color.new(90, 82, 82), Color.new(165, 165, 173)])
         end
       else
@@ -672,13 +672,13 @@
       end
       # Write Exp text OR heart gauge message (if a Shadow Pokémon)
       if @pokemon.shadowPokemon?
-        textpos.push([_INTL("Heart Gauge"), 33, 234, 0, base, shadow])
-        heartmessage = [_INTL("The door to its heart is open! Undo the final lock!"),
-                        _INTL("The door to its heart is almost fully open."),
-                        _INTL("The door to its heart is nearly open."),
-                        _INTL("The door to its heart is opening wider."),
-                        _INTL("The door to its heart is opening up."),
-                        _INTL("The door to its heart is tightly shut.")][@pokemon.heartStage]
+        textpos.push([_INTL("心之量表"), 33, 234, 0, base, shadow])
+        heartmessage = [_INTL("它的心之门已经完全敞开……似乎只差最后一步了！"),      # Stage 0
+                        _INTL("它的心之门几乎完全敞开了。"),                              # Stage 1
+                        _INTL("它的心之门已经大幅开启。"),                                # Stage 2
+                        _INTL("它的心之门正在慢慢敞开。"),                                # Stage 3
+                        _INTL("它的心之门开始出现松动。"),                                # Stage 4
+                        _INTL("它的心之门依然紧闭着……")][@pokemon.heartStage]
          # Changed the text color, to the one used in BW
          memo = sprintf("<c3=404040,B0B0B0>%s\n", heartmessage)
          y_coord = SUMMARY_B2W2_STYLE ? 294 : 296
@@ -686,17 +686,17 @@
       else
         endexp = @pokemon.growth_rate.minimum_exp_for_level(@pokemon.level + 1)
         if SUMMARY_B2W2_STYLE
-          textpos.push([_INTL("Exp. Points"), 34, 232, 0, base, shadow])
+          textpos.push([_INTL("等级点数"), 34, 232, 0, base, shadow])
           # Changed the Positon of No. of Exp
           textpos.push([@pokemon.exp.to_s_formatted, 215, 264, 2, Color.new(90, 82, 82), Color.new(165, 165, 173)])
-          textpos.push([_INTL("To Next Lv."), 34, 296, 0, base, shadow])
+          textpos.push([_INTL("到下一个等级"), 34, 296, 0, base, shadow])
           # Changed the Positon of No. of Exp to Next Level
           textpos.push([(endexp-@pokemon.exp).to_s_formatted, 177, 328, 2, Color.new(90, 82, 82), Color.new(165, 165, 173)])
         else
-          textpos.push([_INTL("Exp. Points"), 34, 234, 0, base, shadow])
+          textpos.push([_INTL("等级点数"), 34, 234, 0, base, shadow])
           # Changed the Positon of No. of Exp
           textpos.push([@pokemon.exp.to_s_formatted, 215, 266, 2, Color.new(90, 82, 82), Color.new(165, 165, 173)])
-          textpos.push([_INTL("To Next Lv."),34,298,0,base,shadow])
+          textpos.push([_INTL("到下一个等级"),34,298,0,base,shadow])
           # Changed the Positon of No. of Exp to Next Level
           textpos.push([(endexp-@pokemon.exp).to_s_formatted, 177, 330, 2, Color.new(90, 82, 82), Color.new(165, 165, 173)])
         end
@@ -753,20 +753,20 @@
       if SUMMARY_B2W2_STYLE
         textpos = [
           [@pokemon.name, 354, 52, 0, base, shadow],
-          [_INTL("Item"), 298, 326, 0, base, shadow]
+          [_INTL("道具"), 298, 326, 0, base, shadow]
         ]
       else
         textpos = [
-          [_INTL("TRAINER MEMO"), 26, 14, 0, Color.new(255, 255, 255), Color.new(132, 132, 132)],
+          [_INTL("训练家备注"), 26, 14, 0, Color.new(255, 255, 255), Color.new(132, 132, 132)],
           [@pokemon.name, 354, 52, 0, base, shadow],
-          [_INTL("Item"), 298, 328, 0, base, shadow]
+          [_INTL("道具"), 298, 328, 0, base, shadow]
         ]
       end
       # Write the held item's name
       if @pokemon.hasItem?
         textpos.push([@pokemon.item.name, 290, 356, 0, base, shadow])
       else
-        textpos.push([_INTL("None"), 290, 356, 0, base, shadow])
+        textpos.push([_INTL("无"), 290, 356, 0, base, shadow])
       end
       # Draw all text
       pbDrawTextPositions(overlay,textpos)
@@ -784,18 +784,18 @@
       mapname = @pokemon.obtain_text if @pokemon.obtain_text && !@pokemon.obtain_text.empty?
       if mapname && mapname != ""
         # Changed the color of the text, to the one used in BW
-        memo += _INTL("<c3=404040,B0B0B0>A mysterious Pokémon Egg received from <c3=0000D6,7394FF>{1}<c3=404040,B0B0B0>.\n", mapname)
+        memo += _INTL("<c3=404040,B0B0B0>一颗从<c3=0000D6,7394FF>{1}<c3=404040,B0B0B0>收到的神秘宝可梦蛋。\n", mapname)
       else
         # Changed the color of the text, to the one used in BW
-        memo += _INTL("<c3=404040,B0B0B0>A mysterious Pokémon Egg.\n", mapname)
+        memo += _INTL("<c3=404040,B0B0B0>一颗神秘的宝可梦蛋。\n", mapname)
       end
       memo += "\n" # Empty line
       # Write Egg Watch blurb
-      memo += _INTL("<c3=404040,B0B0B0>\"The Egg Watch\"\n")
-      eggstate = _INTL("It looks like this Egg will take a long time to hatch.")
-      eggstate = _INTL("What will hatch from this? It doesn't seem close to hatching.") if @pokemon.steps_to_hatch < 10_200
-      eggstate = _INTL("It appears to move occasionally. It may be close to hatching.") if @pokemon.steps_to_hatch < 2550
-      eggstate = _INTL("Sounds can be heard coming from inside! It will hatch soon!") if @pokemon.steps_to_hatch < 1275
+      memo += _INTL("<c3=404040,B0B0B0>\"蛋的观察记录\"\n")
+      eggstate = _INTL("这颗蛋看来还需要很长一段时间才能孵化。")
+      eggstate = _INTL("会从中孵出什么呢？似乎还要一段时间。") if @pokemon.steps_to_hatch < 10_200
+      eggstate = _INTL("蛋偶尔会动一下，感觉快孵化了。") if @pokemon.steps_to_hatch < 2550
+      eggstate = _INTL("似乎能听到里面传来声音！马上就要孵化了！") if @pokemon.steps_to_hatch < 1275
       memo += sprintf("<c3=404040,B0B0B0>%s\n", eggstate)
       # Draw all text
       drawFormattedTextEx(overlay, 10, 90, 268, memo)
@@ -815,7 +815,7 @@
       if showNature
         natureName = @pokemon.nature.name
         # Changed the color of the text, to the one used in BW
-        memo += _INTL("<c3=0000d6,7394ff>{1}<c3=404040,B0B0B0> nature.\n", natureName)
+        memo += _INTL("<c3=0000d6,7394ff>{1}<c3=404040,B0B0B0>性格。\n", natureName)
       end
       # Write date received
       if @pokemon.timeReceived
@@ -823,20 +823,20 @@
         month = pbGetMonthName(@pokemon.timeReceived.mon)
         year  = @pokemon.timeReceived.year
         # Changed the color of the text, to the one used in BW
-        memo += _INTL("<c3=404040,B0B0B0>{1} {2}, {3}\n", date, month, year)
+        memo += _INTL("<c3=404040,B0B0B0>{1} {2}， {3}\n", date, month, year)
       end
       # Write map name Pokémon was received on
       mapname = pbGetMapNameFromId(@pokemon.obtain_map)
       mapname = @pokemon.obtain_text if @pokemon.obtain_text && !@pokemon.obtain_text.empty?
-      mapname = _INTL("Faraway place") if !mapname || mapname==""
+      mapname = _INTL("遥远的地方") if !mapname || mapname==""
       # Changed the color of the text, to the one used in BW
       memo += sprintf("<c3=0000d6,7394ff>%s\n", mapname)
       # Write how Pokémon was obtained
-      mettext = [_INTL("Met at Lv. {1}.", @pokemon.obtain_level),
-                 _INTL("Egg received."),
-                 _INTL("Traded at Lv. {1}.", @pokemon.obtain_level),
+      mettext = [_INTL("在等级{1}的时候遇见的。", @pokemon.obtain_level),
+                 _INTL("收到的宝可梦蛋。"),
+                 _INTL("在等级{1}透过宝可梦\n交换得到。", @pokemon.obtain_level),
                  "",
-                 _INTL("Had a fateful encounter at Lv. {1}.", @pokemon.obtain_level)
+                 _INTL("在等级{1}的时候一件\n特别的事遇见的。", @pokemon.obtain_level)
                 ][@pokemon.obtain_method]
                 # Changed the color of the text, to the one used in BW
       memo += sprintf("<c3=404040,B0B0B0>%s\n", mettext) if mettext && mettext!=""
@@ -847,13 +847,13 @@
           month = pbGetMonthName(@pokemon.timeEggHatched.mon)
           year  = @pokemon.timeEggHatched.year
           # Changed the color of the text, to the one used in BW
-          memo += _INTL("<c3=404040,B0B0B0>{1} {2}, {3}\n", date, month, year)
+          memo += _INTL("<c3=404040,B0B0B0>{1} {2}， {3}\n", date, month, year)
         end
         mapname = pbGetMapNameFromId(@pokemon.hatched_map)
-        mapname = _INTL("Faraway place") if nil_or_empty?(mapname)
+        mapname = _INTL("遥远的地方") if nil_or_empty?(mapname)
           # Changed the colors of the text, to the one used in BW
         memo += sprintf("<c3=C60000,FF7373>%s\n", mapname)
-        memo += _INTL("<c3=404040,B0B0B0>Egg hatched.\n")
+        memo += _INTL("<c3=404040,B0B0B0> 孵化\n")
       else
         memo += "\n"   # Empty line
       end
@@ -870,37 +870,38 @@
             best_iv = @pokemon.iv[best_stat]
           end
         end
+        
         characteristics = {
-          :HP              => [_INTL("Loves to eat."),
-                               _INTL("Takes plenty of siestas."),
-                               _INTL("Nods off a lot."),
-                               _INTL("Scatters things often."),
-                               _INTL("Likes to relax.")],
-          :ATTACK          => [_INTL("Proud of its power."),
-                               _INTL("Likes to thrash about."),
-                               _INTL("A little quick tempered."),
-                               _INTL("Likes to fight."),
-                               _INTL("Quick tempered.")],
-          :DEFENSE         => [_INTL("Sturdy body."),
-                               _INTL("Capable of taking hits."),
-                               _INTL("Highly persistent."),
-                               _INTL("Good endurance."),
-                               _INTL("Good perseverance.")],
-          :SPECIAL_ATTACK  => [_INTL("Highly curious."),
-                               _INTL("Mischievous."),
-                               _INTL("Thoroughly cunning."),
-                               _INTL("Often lost in thought."),
-                               _INTL("Very finicky.")],
-          :SPECIAL_DEFENSE => [_INTL("Strong willed."),
-                               _INTL("Somewhat vain."),
-                               _INTL("Strongly defiant."),
-                               _INTL("Hates to lose."),
-                               _INTL("Somewhat stubborn.")],
-          :SPEED           => [_INTL("Likes to run."),
-                               _INTL("Alert to sounds."),
-                               _INTL("Impetuous and silly."),
-                               _INTL("Somewhat of a clown."),
-                               _INTL("Quick to flee.")]
+          :HP              => [_INTL("爱吃东西。"),
+                               _INTL("经常在打盹。"),
+                               _INTL("总是睡个不停。"),
+                               _INTL("经常把东西弄得乱七八糟。"),
+                               _INTL("喜欢放松。")],
+          :ATTACK          => [_INTL("以力量为傲。"),
+                               _INTL("喜欢乱冲乱撞。"),
+                               _INTL("有点急性子。"),
+                               _INTL("喜欢打架。"),
+                               _INTL("容易发火。")],
+          :DEFENSE         => [_INTL("身体很结实。"),
+                               _INTL("很能挨打。"),
+                               _INTL("意志很坚定。"),
+                               _INTL("耐力不错。"),
+                               _INTL("有毅力。")],
+          :SPECIAL_ATTACK  => [_INTL("好奇心重。"),
+                               _INTL("喜欢恶作剧。"),
+                               _INTL("有点奸诈。"),
+                               _INTL("常常陷入沉思。"),
+                               _INTL("非常挑剔。")],
+          :SPECIAL_DEFENSE => [_INTL("意志坚强。"),
+                               _INTL("有点自恋。"),
+                               _INTL("很有主见。"),
+                               _INTL("讨厌输。"),
+                               _INTL("有点固执。")],
+          :SPEED           => [_INTL("喜欢奔跑。"),
+                               _INTL("对声音很敏感。"),
+                               _INTL("鲁莽又有点傻。"),
+                               _INTL("有点滑稽。"),
+                               _INTL("动不动就想逃跑。")]
         }
         memo += sprintf("<c3=404040,B0B0B0>%s\n", characteristics[best_stat][best_iv % 5])
       end
@@ -952,47 +953,47 @@
   # Write various bits of text
       if SHOW_EV_IV
         textpos = [
-          [_INTL("HP"), 64, 82, 0, Color.new(255, 255, 255), statshadows[:HP]],
+          [_INTL("体力"), 64, 82, 0, Color.new(255, 255, 255), statshadows[:HP]],
           [sprintf("%d/%d", @pokemon.hp, @pokemon.totalhp), 182, 82, 2, base, shadow],
           [sprintf("%d", @pokemon.ev[:HP]), 252, 82, 2, base, shadow],
           [sprintf("%d" ,@pokemon.iv[:HP]), 296, 82, 2, base, shadow],
-          [_INTL("Attack"), 16, 132, 0, Color.new(255, 255, 255), statshadows[:ATTACK]],
+          [_INTL("攻击"), 16, 132, 0, Color.new(255, 255, 255), statshadows[:ATTACK]],
           [sprintf("%d", @pokemon.attack), 182, 132, 2, base, shadow],
           [sprintf("%d", @pokemon.ev[:ATTACK]), 252, 132, 2, base, shadow],
           [sprintf("%d", @pokemon.iv[:ATTACK]), 296, 132, 2, base, shadow],
-          [_INTL("Defense"), 16, 164, 0, Color.new(255, 255, 255), statshadows[:DEFENSE]],
+          [_INTL("防御"), 16, 164, 0, Color.new(255, 255, 255), statshadows[:DEFENSE]],
           [sprintf("%d", @pokemon.defense), 182, 164, 2, base, shadow],
           [sprintf("%d", @pokemon.ev[:DEFENSE]), 252, 164, 2, base, shadow],
           [sprintf("%d", @pokemon.iv[:DEFENSE]), 296, 164, 2, base, shadow],
-          [_INTL("Sp. Atk"), 16, 196, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_ATTACK]],
+          [_INTL("特攻"), 16, 196, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_ATTACK]],
           [sprintf("%d", @pokemon.spatk), 182, 196, 2, base, shadow],
           [sprintf("%d", @pokemon.ev[:SPECIAL_ATTACK]), 252, 196, 2, base, shadow],
           [sprintf("%d", @pokemon.iv[:SPECIAL_ATTACK]), 296, 196, 2, base, shadow],
-          [_INTL("Sp. Def"), 16, 228, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_DEFENSE]],
+          [_INTL("特防"), 16, 228, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_DEFENSE]],
           [sprintf("%d", @pokemon.spdef), 182, 228, 2, base, shadow],
           [sprintf("%d", @pokemon.ev[:SPECIAL_DEFENSE]), 252, 228, 2, base, shadow],
           [sprintf("%d", @pokemon.iv[:SPECIAL_DEFENSE]), 296, 228, 2, base, shadow],
-          [_INTL("Speed"), 16, 260, 0, Color.new(255, 255, 255), statshadows[:SPEED]],
+          [_INTL("速度"), 16, 260, 0, Color.new(255, 255, 255), statshadows[:SPEED]],
           [sprintf("%d", @pokemon.speed), 182, 260, 2, base, shadow],
           [sprintf("%d", @pokemon.ev[:SPEED]), 252, 260, 2, base, shadow],
           [sprintf("%d", @pokemon.iv[:SPEED]), 296, 260, 2, base, shadow],
-          [_INTL("Ability"), 38, 294, 0, Color.new(255, 255, 255), Color.new(165, 165, 173)],
+          [_INTL("特性"), 38, 294, 0, Color.new(255, 255, 255), Color.new(165, 165, 173)],
         ]
       else
         textpos = [
-          [_INTL("HP"), 64, 82, 0, Color.new(255, 255, 255), statshadows[:HP]],
+          [_INTL("体力"), 64, 82, 0, Color.new(255, 255, 255), statshadows[:HP]],
           [sprintf("%d/%d", @pokemon.hp, @pokemon.totalhp), 212, 82, 2, base,shadow],
-          [_INTL("Attack"), 16, 132, 0, Color.new(255, 255, 255), statshadows[:ATTACK]],
+          [_INTL("攻击"), 16, 132, 0, Color.new(255, 255, 255), statshadows[:ATTACK]],
           [sprintf("%d", @pokemon.attack), 212, 132, 2, base, shadow],
-          [_INTL("Defense"), 16, 164, 0, Color.new(255, 255, 255), statshadows[:DEFENSE]],
+          [_INTL("防御"), 16, 164, 0, Color.new(255, 255, 255), statshadows[:DEFENSE]],
           [sprintf("%d", @pokemon.defense), 212, 164, 2, base, shadow],
-          [_INTL("Sp. Atk"), 16, 196, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_ATTACK]],
+          [_INTL("特攻"), 16, 196, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_ATTACK]],
           [sprintf("%d", @pokemon.spatk), 212, 196, 2, base, shadow],
-          [_INTL("Sp. Def"), 16, 228, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_DEFENSE]],
+          [_INTL("特防"), 16, 228, 0, Color.new(255, 255, 255), statshadows[:SPECIAL_DEFENSE]],
           [sprintf("%d", @pokemon.spdef), 212, 228, 2, base, shadow],
-          [_INTL("Speed"), 16, 260, 0, Color.new(255, 255, 255), statshadows[:SPEED]],
+          [_INTL("速度"), 16, 260, 0, Color.new(255, 255, 255), statshadows[:SPEED]],
           [sprintf("%d", @pokemon.speed), 212, 260, 2, base, shadow],
-          [_INTL("Ability"), 38, 294, 0, Color.new(255, 255, 255), Color.new(165, 165, 173)],
+          [_INTL("特性"), 38, 294, 0, Color.new(255, 255, 255), Color.new(165, 165, 173)],
         ]
       end
       # Draw ability name and description
@@ -1099,16 +1100,16 @@
       # Write various bits of text
       if move_to_learn || SUMMARY_B2W2_STYLE
         textpos = [
-          [_INTL("CATEGORY"), 20, 128, 0, base, shadow],
-          [_INTL("POWER"), 20, 160, 0, base, shadow],
-          [_INTL("ACCURACY"), 20, 192, 0, base, shadow]
+          [_INTL("分类"), 20, 128, 0, base, shadow],
+          [_INTL("威力"), 20, 160, 0, base, shadow],
+          [_INTL("命中率"), 20, 192, 0, base, shadow]
         ]
       else
         textpos = [
-          [_INTL("MOVES"), 26, 14, 0, base, shadow],
-          [_INTL("CATEGORY"), 20, 128, 0, base, shadow],
-          [_INTL("POWER"), 20, 160, 0, base, shadow],
-          [_INTL("ACCURACY"), 20, 192, 0, base, shadow]
+          [_INTL("招式"), 26, 14, 0, base, shadow],
+          [_INTL("分类"), 20, 128, 0, base, shadow],
+          [_INTL("威力"), 20, 160, 0, base, shadow],
+          [_INTL("命中率"), 20, 192, 0, base, shadow]
         ]
       end
       imagepos = []
@@ -1196,7 +1197,7 @@
       @sprites["downarrow"].visible = false
       # Write various bits of text
       textpos = [
-         [_INTL("No. of Ribbons:"), 38, 308, 0, Color.new(255, 255, 255), Color.new(165, 165, 173)],
+         [_INTL("奖章数量:"), 38, 308, 0, Color.new(255, 255, 255), Color.new(165, 165, 173)],
          [@pokemon.numRibbons.to_s, 157, 340, 1, Color.new(90, 82, 82), Color.new(165, 165, 173)],
       ]
       # Draw all text
@@ -1445,9 +1446,9 @@
                                                   @markingbitmap.bitmap, markrect)
           end
           textpos = [
-             [_INTL("Mark {1}", pokemon.name), 366, 102, 2, base, shadow],
-             [_INTL("OK"), 366, 254, 2, base, shadow],
-             [_INTL("Cancel"), 366, 302, 2, base, shadow]
+             [_INTL("登记{1}", pokemon.name), 366, 102, 2, base, shadow],
+             [_INTL("确认"), 366, 254, 2, base, shadow],
+             [_INTL("取消"), 366, 302, 2, base, shadow]
           ]
           pbDrawTextPositions(@sprites["markingoverlay"].bitmap, textpos)
           redraw = false
@@ -1545,12 +1546,12 @@
       cmdPokedex  = -1
       cmdMark     = -1
       if !@pokemon.egg?
-        commands[cmdGiveItem = commands.length] = _INTL("Give item")
-        commands[cmdTakeItem = commands.length] = _INTL("Take item") if @pokemon.hasItem?
-        commands[cmdPokedex = commands.length]  = _INTL("View Pokédex") if $player.has_pokedex
+        commands[cmdGiveItem = commands.length] = _INTL("给予道具")
+        commands[cmdTakeItem = commands.length] = _INTL("取出道具") if @pokemon.hasItem?
+        commands[cmdPokedex = commands.length]  = _INTL("查看图鉴") if $player.has_pokedex
       end
-      commands[cmdMark = commands.length]       = _INTL("Mark")
-      commands[commands.length]                 = _INTL("Cancel")
+      commands[cmdMark = commands.length]       = _INTL("登记")
+      commands[commands.length]                 = _INTL("取消")
       command = pbShowCommands(commands)
       if cmdGiveItem >= 0 && command == cmdGiveItem
         item = nil
@@ -1710,7 +1711,7 @@
         ret = @scene.pbChooseMoveToForget(move_to_learn)
         break if ret < 0 || !move_to_learn
         break if $DEBUG || !party[partyindex].moves[ret].hidden_move?
-        pbMessage(_INTL("HM moves can't be forgotten now.")) { @scene.pbUpdate }
+        pbMessage(_INTL("现在无法忘记秘传招式。")) { @scene.pbUpdate }
       end
       @scene.pbEndScene
       return ret
@@ -1723,7 +1724,7 @@
       loop do
         ret = @scene.pbChooseMoveToForget(nil)
         break if ret >= 0
-        pbMessage(_INTL("You must choose a move!")) { @scene.pbUpdate }
+        pbMessage(_INTL("你必须选择一个招式！")) { @scene.pbUpdate }
       end
       @scene.pbEndScene
       return ret
