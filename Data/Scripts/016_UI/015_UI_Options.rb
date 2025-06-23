@@ -186,7 +186,7 @@ class Window_PokemonOption < Window_DrawableCommand
     # Draw option's name
     optionname = (index == @options.length) ? _INTL("关闭") : @options[index].name
     optionwidth = rect.width * 9 / 20
-    pbDrawShadowText(self.contents, rect.x, rect.y+2, optionwidth, rect.height, optionname,
+    pbDrawShadowText(self.contents, rect.x, rect.y-2, optionwidth, rect.height, optionname,
                      (index == sel_index) ? SEL_NAME_BASE_COLOR : self.baseColor,
                      (index == sel_index) ? SEL_NAME_SHADOW_COLOR : self.shadowColor)
     return if index == @options.length
@@ -203,7 +203,7 @@ class Window_PokemonOption < Window_DrawableCommand
         xpos = optionwidth + rect.x
         ivalue = 0
         @options[index].values.each do |value|
-          pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
+          pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
                            (ivalue == self[index]) ? SEL_VALUE_BASE_COLOR : self.baseColor,
                            (ivalue == self[index]) ? SEL_VALUE_SHADOW_COLOR : self.shadowColor)
           xpos += self.contents.text_size(value).width
@@ -211,14 +211,14 @@ class Window_PokemonOption < Window_DrawableCommand
           ivalue += 1
         end
       else
-        pbDrawShadowText(self.contents, rect.x + optionwidth, rect.y+2, optionwidth, rect.height,
+        pbDrawShadowText(self.contents, rect.x + optionwidth, rect.y, optionwidth, rect.height,
                          optionname, self.baseColor, self.shadowColor)
       end
     when NumberOption
       value = _INTL("样式 {1}/{2}", @options[index].lowest_value + self[index],
                     @options[index].highest_value - @options[index].lowest_value + 1)
       xpos = optionwidth + (rect.x * 2)
-      pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
+      pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
                        SEL_VALUE_BASE_COLOR, SEL_VALUE_SHADOW_COLOR, 1)
     when SliderOption
       value = sprintf(" %d", @options[index].highest_value)
@@ -232,12 +232,12 @@ class Window_PokemonOption < Window_DrawableCommand
       )
       value = (@options[index].lowest_value + self[index]).to_s
       xpos += (rect.width - rect.x - optionwidth) - self.contents.text_size(value).width
-      pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
+      pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
                        SEL_VALUE_BASE_COLOR, SEL_VALUE_SHADOW_COLOR)
     else
       value = @options[index].values[self[index]]
       xpos = optionwidth + rect.x
-      pbDrawShadowText(self.contents, xpos, rect.y+2, optionwidth, rect.height, value,
+      pbDrawShadowText(self.contents, xpos, rect.y, optionwidth, rect.height, value,
                        SEL_VALUE_BASE_COLOR, SEL_VALUE_SHADOW_COLOR)
     end
   end
@@ -437,36 +437,6 @@ MenuHandlers.add(:options_menu, :text_speed, {
   }
 })
 
-MenuHandlers.add(:options_menu, :battle_animations, {
-  "name"        => _INTL("对战动画"),
-  "order"       => 40,
-  "type"        => EnumOption,
-  "parameters"  => [_INTL("开"), _INTL("关")],
-  "description" => _INTL("选择是否要在战斗时看到招式动画。"),
-  "get_proc"    => proc { next $PokemonSystem.battlescene },
-  "set_proc"    => proc { |value, _scene| $PokemonSystem.battlescene = value }
-})
-
-MenuHandlers.add(:options_menu, :battle_style, {
-  "name"        => _INTL("对战规则"),
-  "order"       => 50,
-  "type"        => EnumOption,
-  "parameters"  => [_INTL("替换"), _INTL("连战")],
-  "description" => _INTL("选择击败敌方宝可梦时是否可以替换宝可梦。"),
-  "get_proc"    => proc { next $PokemonSystem.battlestyle },
-  "set_proc"    => proc { |value, _scene| $PokemonSystem.battlestyle = value }
-})
-
-MenuHandlers.add(:options_menu, :movement_style, {
-  "name"        => _INTL("默认移动方式"),
-  "order"       => 60,
-  "type"        => EnumOption,
-  "parameters"  => [_INTL("行走"), _INTL("奔跑")],
-  "description" => _INTL("选择移动的方式，通过按键切换移动方式时会切换成未选中的方式移动。"),
-  "condition"   => proc { next $player&.has_running_shoes },
-  "get_proc"    => proc { next $PokemonSystem.runstyle },
-  "set_proc"    => proc { |value, _sceme| $PokemonSystem.runstyle = value }
-})
 
 MenuHandlers.add(:options_menu, :send_to_boxes, {
   "name"        => _INTL("发送至盒子"),
@@ -487,46 +457,6 @@ MenuHandlers.add(:options_menu, :give_nicknames, {
   "description" => _INTL("决定获得宝可梦时是否要选择给予昵称。"),
   "get_proc"    => proc { next $PokemonSystem.givenicknames },
   "set_proc"    => proc { |value, _scene| $PokemonSystem.givenicknames = value }
-})
-
-MenuHandlers.add(:options_menu, :speech_frame, {
-  "name"        => _INTL("对话栏"),
-  "order"       => 90,
-  "type"        => NumberOption,
-  "parameters"  => 1..Settings::SPEECH_WINDOWSKINS.length,
-  "description" => _INTL("选择对话框的外观。"),
-  "get_proc"    => proc { next $PokemonSystem.textskin },
-  "set_proc"    => proc { |value, scene|
-    $PokemonSystem.textskin = value
-    MessageConfig.pbSetSpeechFrame("Graphics/Windowskins/" + Settings::SPEECH_WINDOWSKINS[value])
-    # Change the windowskin of the options text box to selected one
-    scene.sprites["textbox"].setSkin(MessageConfig.pbGetSpeechFrame)
-  }
-})
-
-MenuHandlers.add(:options_menu, :menu_frame, {
-  "name"        => _INTL("菜单栏"),
-  "order"       => 100,
-  "type"        => NumberOption,
-  "parameters"  => 1..Settings::MENU_WINDOWSKINS.length,
-  "description" => _INTL("选择菜单框的外观。"),
-  "get_proc"    => proc { next $PokemonSystem.frame },
-  "set_proc"    => proc { |value, scene|
-    $PokemonSystem.frame = value
-    MessageConfig.pbSetSystemFrame("Graphics/Windowskins/" + Settings::MENU_WINDOWSKINS[value])
-    # Change the windowskin of the options text box to selected one
-    scene.sprites["option"].setSkin(MessageConfig.pbGetSystemFrame)
-  }
-})
-
-MenuHandlers.add(:options_menu, :text_input_style, {
-  "name"        => _INTL("文字输入"),
-  "order"       => 110,
-  "type"        => EnumOption,
-  "parameters"  => [_INTL("光标"), _INTL("键盘")],
-  "description" => _INTL("选择输入文本的方式。"),
-  "get_proc"    => proc { next $PokemonSystem.textinput },
-  "set_proc"    => proc { |value, _scene| $PokemonSystem.textinput = value }
 })
 
 MenuHandlers.add(:options_menu, :screen_size, {
