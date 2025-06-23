@@ -75,7 +75,7 @@ end
 class PokemonPartyCancelSprite < PokemonPartyConfirmCancelSprite
   def initialize(viewport = nil)
 # Changed Cancel button position
-    super(_INTL("CANCEL"), 378, 328, false, viewport)
+    super(_INTL("取消"), 378, 328, false, viewport)
   end
 end
 
@@ -85,7 +85,7 @@ end
 class PokemonPartyConfirmSprite < PokemonPartyConfirmCancelSprite
   def initialize(viewport = nil)
     # Changed Confirm  button position
-    super(_INTL("CONFIRM"), 378, 310, true, viewport)
+    super(_INTL("确认"), 378, 310, true, viewport)
   end
 end
 
@@ -95,7 +95,7 @@ end
 class PokemonPartyCancelSprite2 < PokemonPartyConfirmCancelSprite
   def initialize(viewport = nil)
     # Changed Cancel button position
-    super(_INTL("CANCEL"), 378, 348, true, viewport)
+    super(_INTL("取消"), 378, 348, true, viewport)
    end
  end
 
@@ -529,7 +529,7 @@ class PokemonParty_Scene
     @sprites["messagebox"].letterbyletter = true
     pbBottomLeftLines(@sprites["messagebox"], 2)
     @sprites["storagetext"] = Window_UnformattedTextPokemon.new(
-      @can_access_storage ? _INTL("[Special]: To Boxes") : ""
+      @can_access_storage ? _INTL("{宝可梦}：打开盒子") : ""
     )
     @sprites["storagetext"].x           = 32
     @sprites["storagetext"].y           = Graphics.height - @sprites["messagebox"].height - 16
@@ -598,7 +598,7 @@ class PokemonParty_Scene
       @sprites["messagebox"].text    = text
       @sprites["messagebox"].visible = true
       @sprites["helpwindow"].visible = false
-      using(cmdwindow = Window_CommandPokemon.new([_INTL("Yes"), _INTL("No")])) {
+      using(cmdwindow = Window_CommandPokemon.new(_INTL("是"), [_INTL("否")])) {
         cmdwindow.visible = false
         pbBottomRight(cmdwindow)
         cmdwindow.y -= @sprites["messagebox"].height
@@ -954,7 +954,7 @@ class PokemonPartyScreen
   end
 
   def pbPokemonGiveScreen(item)
-    @scene.pbStartScene(@party, _INTL("Give to which Pokémon?"))
+    @scene.pbStartScene(@party, _INTL("要给哪只宝可梦携带？"))
     pkmnid = @scene.pbChoosePokemon
     ret = false
     if pkmnid >= 0
@@ -966,16 +966,16 @@ class PokemonPartyScreen
   end
 
   def pbPokemonGiveMailScreen(mailIndex)
-    @scene.pbStartScene(@party, _INTL("Give to which Pokémon?"))
+    @scene.pbStartScene(@party, _INTL("要给哪只宝可梦携带？"))
     pkmnid = @scene.pbChoosePokemon
     if pkmnid >= 0
       pkmn = @party[pkmnid]
       if pkmn.hasItem? || pkmn.mail
-        pbDisplay(_INTL("This Pokémon is holding an item. It can't hold mail."))
+        pbDisplay(_INTL("这只宝可梦已经携带道具了，\n无法再携带信件。"))
       elsif pkmn.egg?
-        pbDisplay(_INTL("Eggs can't hold mail."))
+        pbDisplay(_INTL("蛋无法携带信件。"))
       else
-        pbDisplay(_INTL("Mail was transferred from the Mailbox."))
+        pbDisplay(_INTL("信件已从信箱中转移过来了。"))
         pkmn.mail = $PokemonGlobal.mailbox[mailIndex]
         pkmn.item = pkmn.mail.item
         $PokemonGlobal.mailbox.delete_at(mailIndex)
@@ -1066,7 +1066,7 @@ class PokemonPartyScreen
     annot = []
     @party.each do |pkmn|
       elig = ableProc.call(pkmn)
-      annot.push((elig) ? _INTL("ABLE") : _INTL("NOT ABLE"))
+      annot.push((elig) ? _INTL("可学习") : _INTL("无法学习"))
     end
     @scene.pbAnnotate(annot)
   end
@@ -1078,10 +1078,10 @@ class PokemonPartyScreen
   def pbPokemonMultipleEntryScreenEx(ruleset)
     annot = []
     statuses = []
-    ordinals = [_INTL("INELIGIBLE"), _INTL("NOT ENTERED"), _INTL("BANNED")]
-    positions = [_INTL("FIRST"), _INTL("SECOND"), _INTL("THIRD"), _INTL("FOURTH"),
-                 _INTL("FIFTH"), _INTL("SIXTH"), _INTL("SEVENTH"), _INTL("EIGHTH"),
-                 _INTL("NINTH"), _INTL("TENTH"), _INTL("ELEVENTH"), _INTL("TWELFTH")]
+    ordinals = [_INTL("不符合资格"), _INTL("未报名"), _INTL("	被禁止")]
+    positions = [_INTL("第一"), _INTL("第二"), _INTL("第三"), _INTL("第四"),
+                 _INTL("第五"), _INTL("第六"), _INTL("第七"), _INTL("第八"),
+                 _INTL("第九"), _INTL("第十"), _INTL("十一"), _INTL("十二")]
     Settings::MAX_PARTY_SIZE.times do |i|
       if i < positions.length
         ordinals.push(positions[i])
@@ -1096,7 +1096,7 @@ class PokemonPartyScreen
       statuses[i] = (ruleset.isPokemonValid?(@party[i])) ? 1 : 2
       annot[i] = ordinals[statuses[i]]
     end
-    @scene.pbStartScene(@party, _INTL("Choose Pokémon and confirm."), annot, true)
+    @scene.pbStartScene(@party, _INTL("选择宝可梦并确认。"), annot, true)
     loop do
       realorder = []
       @party.length.times do |i|
@@ -1117,7 +1117,7 @@ class PokemonPartyScreen
       if realorder.length == ruleset.number && addedEntry
         @scene.pbSelect(Settings::MAX_PARTY_SIZE)
       end
-      @scene.pbSetHelpText(_INTL("Choose Pokémon and confirm."))
+      @scene.pbSetHelpText(_INTL("选择宝可梦并确认。"))
       pkmnid = @scene.pbChoosePokemon
       addedEntry = false
       if pkmnid == Settings::MAX_PARTY_SIZE   # Confirm was chosen
@@ -1136,17 +1136,17 @@ class PokemonPartyScreen
       cmdSummary = -1
       commands = []
       if (statuses[pkmnid] || 0) == 1
-        commands[cmdEntry = commands.length]   = _INTL("Entry")
+        commands[cmdEntry = commands.length]   = _INTL("登记")
       elsif (statuses[pkmnid] || 0) > 2
-        commands[cmdNoEntry = commands.length] = _INTL("No Entry")
+        commands[cmdNoEntry = commands.length] = _INTL("取消登记")
       end
       pkmn = @party[pkmnid]
-      commands[cmdSummary = commands.length]   = _INTL("Summary")
-      commands[commands.length]                = _INTL("Cancel")
-      command = @scene.pbShowCommands(_INTL("Do what with {1}?", pkmn.name), commands) if pkmn
+      commands[cmdSummary = commands.length]   = _INTL("信息摘要")
+      commands[commands.length]                = _INTL("取消")
+      command = @scene.pbShowCommands(_INTL("要对{1}做什么？", pkmn.name), commands) if pkmn
       if cmdEntry >= 0 && command == cmdEntry
         if realorder.length >= ruleset.number && ruleset.number > 0
-          pbDisplay(_INTL("No more than {1} Pokémon may enter.", ruleset.number))
+          pbDisplay(_INTL("最多只能选{1}只宝可梦！", ruleset.number))
         else
           statuses[pkmnid] = realorder.length + 3
           addedEntry = true
@@ -1157,7 +1157,7 @@ class PokemonPartyScreen
         pbRefreshSingle(pkmnid)
       elsif cmdSummary >= 0 && command == cmdSummary
         @scene.pbSummary(pkmnid) {
-          @scene.pbSetHelpText((@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
+          @scene.pbSetHelpText((@party.length > 1) ? _INTL("选择宝可梦") : _INTL("选择宝可梦或取消"))
         }
       end
     end
@@ -1171,22 +1171,22 @@ class PokemonPartyScreen
     @party.each do |pkmn|
       elig = ableProc.call(pkmn)
       eligibility.push(elig)
-      annot.push((elig) ? _INTL("ABLE") : _INTL("NOT ABLE"))
+      annot.push((elig) ? _INTL("可学习") : _INTL("无法学习"))
     end
     ret = -1
     @scene.pbStartScene(
       @party,
-      (@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."),
+      (@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"),
       annot
     )
     loop do
       @scene.pbSetHelpText(
-        (@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel.")
+        (@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。")
       )
       pkmnid = @scene.pbChoosePokemon
       break if pkmnid < 0
       if !eligibility[pkmnid] && !allowIneligible
-        pbDisplay(_INTL("This Pokémon can't be chosen."))
+        pbDisplay(_INTL("无法选择这只宝可梦。"))
       else
         ret = pkmnid
         break
@@ -1203,22 +1203,22 @@ class PokemonPartyScreen
       elig = ableProc.call(pkmn)
       elig = false if pkmn.egg? || pkmn.shadowPokemon? || pkmn.cannot_trade
       eligibility.push(elig)
-      annot.push((elig) ? _INTL("ABLE") : _INTL("NOT ABLE"))
+      annot.push((elig) ? _INTL("可学习") : _INTL("无法学习"))
     end
     ret = -1
     @scene.pbStartScene(
       @party,
-      (@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."),
+      (@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"),
       annot
     )
     loop do
       @scene.pbSetHelpText(
-        (@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel.")
+        (@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。")
       )
       pkmnid = @scene.pbChoosePokemon
       break if pkmnid < 0
       if !eligibility[pkmnid] && !allowIneligible
-        pbDisplay(_INTL("This Pokémon can't be chosen."))
+        pbDisplay(_INTL("无法选择这只宝可梦。"))
       else
         ret = pkmnid
         break
@@ -1236,17 +1236,17 @@ class PokemonPartyScreen
       can_access_storage = true
     end
     @scene.pbStartScene(@party,
-                        (@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."),
+                        (@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"),
                         nil, false, can_access_storage)
     # Main loop
     loop do
       # Choose a Pokémon or cancel or press Action to quick switch
-      @scene.pbSetHelpText((@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
+      @scene.pbSetHelpText((@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"))
       party_idx = @scene.pbChoosePokemon(false, -1, 1)
       break if (party_idx.is_a?(Numeric) && party_idx < 0) || (party_idx.is_a?(Array) && party_idx[1] < 0)
       # Quick switch
       if party_idx.is_a?(Array) && party_idx[0] == 1   # Switch
-        @scene.pbSetHelpText(_INTL("Move to where?"))
+        @scene.pbSetHelpText(_INTL("移动到哪里"))
         old_party_idx = party_idx[1]
         party_idx = @scene.pbChoosePokemon(true, -1, 2)
         pbSwitch(old_party_idx, party_idx) if party_idx >= 0 && party_idx != old_party_idx
@@ -1261,7 +1261,7 @@ class PokemonPartyScreen
         command_list.push(name)
         commands.push(hash)
       end
-      command_list.push(_INTL("Cancel"))
+      command_list.push(_INTL("取消"))
       # Add field move commands
       if !pkmn.egg?
         insert_index = ($DEBUG) ? 2 : 1
@@ -1274,7 +1274,7 @@ class PokemonPartyScreen
         end
       end
       # Choose a menu option
-      choice = @scene.pbShowCommands(_INTL("Do what with {1}?", pkmn.name), command_list)
+      choice = @scene.pbShowCommands(_INTL("要对{1}做什么？", pkmn.name), command_list)
       next if choice < 0 || choice >= commands.length
       # Effect of chosen menu option
       case commands[choice]
@@ -1285,10 +1285,10 @@ class PokemonPartyScreen
         if [:MILKDRINK, :SOFTBOILED].include?(move.id)
           amt = [(pkmn.totalhp / 5).floor, 1].max
           if pkmn.hp <= amt
-            pbDisplay(_INTL("Not enough HP..."))
+            pbDisplay(_INTL("体力不够，无法使用……"))
             next
           end
-          @scene.pbSetHelpText(_INTL("Use on which Pokémon?"))
+          @scene.pbSetHelpText(_INTL("要对哪只宝可梦使用？"))
           old_party_idx = party_idx
           loop do
             @scene.pbPreSelect(old_party_idx)
@@ -1297,15 +1297,15 @@ class PokemonPartyScreen
             newpkmn = @party[party_idx]
             movename = move.name
             if party_idx == old_party_idx
-              pbDisplay(_INTL("{1} can't use {2} on itself!", pkmn.name, movename))
+              pbDisplay(_INTL("{1}不能对自己使用{2}！", pkmn.name, movename))
             elsif newpkmn.egg?
-              pbDisplay(_INTL("{1} can't be used on an Egg!", movename))
+              pbDisplay(_INTL("{1}无法对蛋使用！", movename))
             elsif newpkmn.fainted? || newpkmn.hp == newpkmn.totalhp
-              pbDisplay(_INTL("{1} can't be used on that Pokémon.", movename))
+              pbDisplay(_INTL("{1}无法对这只宝可梦使用。", movename))
             else
               pkmn.hp -= amt
               hpgain = pbItemRestoreHP(newpkmn, amt)
-              @scene.pbDisplay(_INTL("{1}'s HP was restored by {2} points.", newpkmn.name, hpgain))
+              @scene.pbDisplay(_INTL("{1}的体力恢复了{2}点", newpkmn.name, hpgain))
               pbRefresh
             end
             break if pkmn.hp <= amt
@@ -1324,7 +1324,7 @@ class PokemonPartyScreen
                 return [pkmn, move.id]
               end
               @scene.pbStartScene(
-                @party, (@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel.")
+                @party, (@party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。")
               )
               next
             end
@@ -1346,17 +1346,17 @@ end
 # insert_index above if you need to change this.
 #===============================================================================
 MenuHandlers.add(:party_menu, :summary, {
-  "name"      => _INTL("Summary"),
+  "name"      => _INTL("信息摘要"),
   "order"     => 10,
   "effect"    => proc { |screen, party, party_idx|
     screen.scene.pbSummary(party_idx) {
-      screen.scene.pbSetHelpText((party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
+      screen.scene.pbSetHelpText((party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"))
     }
   }
 })
 
 MenuHandlers.add(:party_menu, :debug, {
-  "name"      => _INTL("Debug"),
+  "name"      => _INTL("DEBUG"),
   "order"     => 20,
   "condition" => proc { |screen, party, party_idx| next $DEBUG },
   "effect"    => proc { |screen, party, party_idx|
@@ -1365,11 +1365,11 @@ MenuHandlers.add(:party_menu, :debug, {
 })
 
 MenuHandlers.add(:party_menu, :switch, {
-  "name"      => _INTL("Switch"),
+  "name"      => _INTL("移动"),
   "order"     => 30,
   "condition" => proc { |screen, party, party_idx| next party.length > 1 },
   "effect"    => proc { |screen, party, party_idx|
-    screen.scene.pbSetHelpText(_INTL("Move to where?"))
+    screen.scene.pbSetHelpText(_INTL("移动到哪里？"))
     old_party_idx = party_idx
     party_idx = screen.scene.pbChoosePokemon(true)
     screen.pbSwitch(old_party_idx, party_idx) if party_idx >= 0 && party_idx != old_party_idx
@@ -1377,18 +1377,18 @@ MenuHandlers.add(:party_menu, :switch, {
 })
 
 MenuHandlers.add(:party_menu, :mail, {
-  "name"      => _INTL("Mail"),
+  "name"      => _INTL("信件"),
   "order"     => 40,
   "condition" => proc { |screen, party, party_idx| next !party[party_idx].egg? && party[party_idx].mail },
   "effect"    => proc { |screen, party, party_idx|
     pkmn = party[party_idx]
-    command = screen.scene.pbShowCommands(_INTL("Do what with the mail?"),
-                                          [_INTL("Read"), _INTL("Take"), _INTL("Cancel")])
+    command = screen.scene.pbShowCommands(_INTL("要对这封信件做什么？"),
+                                          [_INTL("阅读"), _INTL("取下"), _INTL("取消")])
     case command
     when 0   # Read
       pbFadeOutIn {
         pbDisplayMail(pkmn.mail, pkmn)
-        screen.scene.pbSetHelpText((party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
+        screen.scene.pbSetHelpText((party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"))
       }
     when 1   # Take
       if pbTakeItemFromPokemon(pkmn, screen)
@@ -1399,7 +1399,7 @@ MenuHandlers.add(:party_menu, :mail, {
 })
 
 MenuHandlers.add(:party_menu, :item, {
-  "name"      => _INTL("Item"),
+  "name"      => _INTL("道具"),
   "order"     => 50,
   "condition" => proc { |screen, party, party_idx| next !party[party_idx].egg? && !party[party_idx].mail },
   "effect"    => proc { |screen, party, party_idx|
@@ -1410,21 +1410,21 @@ MenuHandlers.add(:party_menu, :item, {
       command_list.push(name)
       commands.push(hash)
     end
-    command_list.push(_INTL("Cancel"))
+    command_list.push(_INTL("取消"))
     # Choose a menu option
-    choice = screen.scene.pbShowCommands(_INTL("Do what with an item?"), command_list)
+    choice = screen.scene.pbShowCommands(_INTL("要怎么处理这个道具？"), command_list)
     next if choice < 0 || choice >= commands.length
     commands[choice]["effect"].call(screen, party, party_idx)
   }
 })
 
 MenuHandlers.add(:party_menu_item, :use, {
-  "name"      => _INTL("Use"),
+  "name"      => _INTL("使用"),
   "order"     => 10,
   "effect"    => proc { |screen, party, party_idx|
     pkmn = party[party_idx]
     item = screen.scene.pbUseItem($bag, pkmn) {
-      screen.scene.pbSetHelpText((party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
+      screen.scene.pbSetHelpText((party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"))
     }
     next if !item
     pbUseItemOnPokemon(item, pkmn, screen)
@@ -1433,12 +1433,12 @@ MenuHandlers.add(:party_menu_item, :use, {
 })
 
 MenuHandlers.add(:party_menu_item, :give, {
-  "name"      => _INTL("Give"),
+  "name"      => _INTL("给予"),
   "order"     => 20,
   "effect"    => proc { |screen, party, party_idx|
     pkmn = party[party_idx]
     item = screen.scene.pbChooseItem($bag) {
-      screen.scene.pbSetHelpText((party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
+      screen.scene.pbSetHelpText((party.length > 1) ? _INTL("选择宝可梦。") : _INTL("选择宝可梦或取消。"))
     }
     next if !item || !pbGiveItemToPokemon(item, pkmn, screen, party_idx)
     screen.pbRefreshSingle(party_idx)
@@ -1446,7 +1446,7 @@ MenuHandlers.add(:party_menu_item, :give, {
 })
 
 MenuHandlers.add(:party_menu_item, :take, {
-  "name"      => _INTL("Take"),
+  "name"      => _INTL("拿取"),
   "order"     => 30,
   "condition" => proc { |screen, party, party_idx| next party[party_idx].hasItem? },
   "effect"    => proc { |screen, party, party_idx|
@@ -1457,14 +1457,14 @@ MenuHandlers.add(:party_menu_item, :take, {
 })
 
 MenuHandlers.add(:party_menu_item, :move, {
-  "name"      => _INTL("Move"),
+  "name"      => _INTL("移动道具"),
   "order"     => 40,
   "condition" => proc { |screen, party, party_idx| next party[party_idx].hasItem? && !party[party_idx].item.is_mail? },
   "effect"    => proc { |screen, party, party_idx|
     pkmn = party[party_idx]
     item = pkmn.item
     itemname = item.name
-    screen.scene.pbSetHelpText(_INTL("Move {1} to where?", itemname))
+    screen.scene.pbSetHelpText(_INTL("要将{1}移动到哪只\n宝可梦上？", itemname))
     old_party_idx = party_idx
     moved = false
     loop do
@@ -1474,37 +1474,37 @@ MenuHandlers.add(:party_menu_item, :move, {
       newpkmn = party[party_idx]
       break if party_idx == old_party_idx
       if newpkmn.egg?
-        screen.pbDisplay(_INTL("Eggs can't hold items."))
+        screen.pbDisplay(_INTL("蛋无法携带道具。"))
         next
       elsif !newpkmn.hasItem?
         newpkmn.item = item
         pkmn.item = nil
         screen.scene.pbClearSwitching
         screen.pbRefresh
-        screen.pbDisplay(_INTL("{1} was given the {2} to hold.", newpkmn.name, itemname))
+        screen.pbDisplay(_INTL("{1}拿到了{2}。", newpkmn.name, itemname))
         moved = true
         break
       elsif newpkmn.item.is_mail?
-        screen.pbDisplay(_INTL("{1}'s mail must be removed before giving it an item.", newpkmn.name))
+        screen.pbDisplay(_INTL("必须先拿取{1}的信件\n才能给予其他道具。", newpkmn.name))
         next
       end
       # New Pokémon is also holding an item; ask what to do with it
       newitem = newpkmn.item
       newitemname = newitem.name
       if newitem == :LEFTOVERS
-        screen.pbDisplay(_INTL("{1} is already holding some {2}.\1", newpkmn.name, newitemname))
+        screen.pbDisplay(_INTL("{1}已经携带了一些{2}.\1", newpkmn.name, newitemname))
       elsif newitemname.starts_with_vowel?
-        screen.pbDisplay(_INTL("{1} is already holding an {2}.\1", newpkmn.name, newitemname))
+        screen.pbDisplay(_INTL("{1}已经携带了一个{2}.\1", newpkmn.name, newitemname))
       else
-        screen.pbDisplay(_INTL("{1} is already holding a {2}.\1", newpkmn.name, newitemname))
+        screen.pbDisplay(_INTL("{1}已经携带了一个{2}.\1", newpkmn.name, newitemname))
       end
-      next if !screen.pbConfirm(_INTL("Would you like to switch the two items?"))
+      next if !screen.pbConfirm(_INTL("是否要交换这两个道具？"))
       newpkmn.item = item
       pkmn.item = newitem
       screen.scene.pbClearSwitching
       screen.pbRefresh
-      screen.pbDisplay(_INTL("{1} was given the {2} to hold.", newpkmn.name, itemname))
-      screen.pbDisplay(_INTL("{1} was given the {2} to hold.", pkmn.name, newitemname))
+      screen.pbDisplay(_INTL("{1}得到了{2}。", newpkmn.name, itemname))
+      screen.pbDisplay(_INTL("{1}得到了{2}。", pkmn.name, newitemname))
       moved = true
       break
     end
@@ -1537,7 +1537,7 @@ def pbChoosePokemon(variableNumber, nameVarNumber, ableProc = nil, allowIneligib
     if ableProc
       chosen = screen.pbChooseAblePokemon(ableProc, allowIneligible)
     else
-      screen.pbStartScene(_INTL("Choose a Pokémon."), false)
+      screen.pbStartScene(_INTL("选择宝可梦。"), false)
       chosen = screen.pbChoosePokemon
       screen.pbEndScene
     end
@@ -1567,7 +1567,7 @@ def pbChooseTradablePokemon(variableNumber, nameVarNumber, ableProc = nil, allow
     if ableProc
       chosen = screen.pbChooseTradablePokemon(ableProc, allowIneligible)
     else
-      screen.pbStartScene(_INTL("Choose a Pokémon."), false)
+      screen.pbStartScene(_INTL("选择宝可梦。"), false)
       chosen = screen.pbChoosePokemon
       screen.pbEndScene
     end
