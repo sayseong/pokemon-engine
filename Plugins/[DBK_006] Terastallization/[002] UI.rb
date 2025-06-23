@@ -91,25 +91,6 @@ def pbDisplayTeraType(pokemon, overlay, xpos, ypos, override = false)
   overlay.blt(xpos, ypos, terabitmap.bitmap, tera_rect)
 end
 
-class PokemonStorageScene
-  alias tera_pbUpdateOverlay pbUpdateOverlay
-  def pbUpdateOverlay(selection, party = nil)
-    tera_pbUpdateOverlay(selection, party)
-    return if !Settings::STORAGE_TERA_TYPES
-    if @sprites["pokemon"].visible
-      if !@sprites["plugin_overlay"]
-        @sprites["plugin_overlay"] = BitmapSprite.new(Graphics.width, Graphics.height, @boxsidesviewport)
-      end
-      plugin_overlay = @sprites["plugin_overlay"].bitmap
-      if @screen.pbHeldPokemon
-        pokemon = @screen.pbHeldPokemon
-      elsif selection >= 0
-        pokemon = (party) ? party[selection] : @storage[@storage.currentBox, selection]
-      end
-      pbDisplayTeraType(pokemon, plugin_overlay, 8, 164)      
-    end
-  end
-end
 
 class PokemonSummary_Scene
   alias tera_drawPageOne drawPageOne

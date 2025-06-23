@@ -1469,7 +1469,7 @@ class PokemonStorageScene
         type_number = GameData::Type.get(type).icon_position
         type_rect = Rect.new(0, type_number * 28, 64, 28)
         type_x = (pokemon.types.length == 1) ? 52 : 18 + (70 * i)
-        overlay.blt(type_x, 272, typebitmap.bitmap, type_rect)
+        overlay.blt(type_x, 270, typebitmap.bitmap, type_rect)
       end
       drawMarkings(overlay, 70, 240, 128, 20, pokemon.markings)
       pbDrawImagePositions(overlay, imagepos)
